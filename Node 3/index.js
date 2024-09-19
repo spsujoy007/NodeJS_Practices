@@ -12,7 +12,7 @@ app.use(cors())
 // mongoose.connect(`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@devinnovationdb.rcz6p.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=DevInnovationDB`)
 //   .then(() => console.log('Database connected!'));
 
-
+const name ='sujoy'
 app.get('/', (req, res) => {
   res.send('Hello World!')
 })

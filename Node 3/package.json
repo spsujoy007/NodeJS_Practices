@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +17,8 @@
     "express": "^4.21.0",
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.3"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.3"
   }
 }
