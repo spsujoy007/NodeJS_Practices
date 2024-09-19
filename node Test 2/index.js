@@ -1,11 +1,14 @@
 const express = require('express')
 const app = express()
 const port = 5000
-const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
+require('./db/mongodbConnection');
+
 
 // controllers 
 const {createpost} = require('./controller/post');
 const registerUser = require('./controller/registration')
+const {AddCarController, getCarsController} = require('./controller/addcar.controller')
 
 const secureApi = require('./middleware/secureApi');
 app.use(express.json())
@@ -13,16 +16,15 @@ app.use(express.json())
 // tables 
 const {User, Post} = require('./model/makeUser');
 
-mongoose.connect('mongodb+srv://GlobalServerPrac:atHaLf7FtMqWha6e@cluster0.6ke0m0t.mongodb.net/practicenode?retryWrites=true&w=majority&appName=Cluster0')
-  .then(() => {
-    console.log('MongoDB Connected!')
-});
 
 // middleware 
-
 app.get('/', (req, res) => {
   res.send('Hello World! This is node')
 })
+
+/// sorting filtering
+app.post('/addcars', AddCarController)
+app.get('/cars/:search', getCarsController)
 
 
 // authorization system 
@@ -33,7 +35,7 @@ app.get('/message', secureApi, (req, res) =>{
 app.post('/adduser', registerUser)
 
 app.get('/user/:id', async(req, res) =>{
-    const data = await User.findById(req.params.id);
+    const data = await User.findById(req.params.id).populate('cars');
     console.log(data);
     bcrypt.compare('123456', data.password, function(err, result) {
       // result == true
@@ -41,12 +43,15 @@ app.get('/user/:id', async(req, res) =>{
         name: data.name,
         email: data.email,
         id: data._id,
+        cars: data.cars,
         password: result
         // _id,
       }
       res.send(userdata)
   });
 })
+
+
 
 app.post('/makepost', createpost)
 

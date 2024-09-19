@@ -13,13 +13,19 @@ const CreateUser = new Schema({
     },
     phone: {
         type: Number,
-        unique: true,
+        // unique: true,
         required: true
     },
     password: {
         type: String,
         required: true
-    }
+    },
+    cars: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Car'
+        }
+    ]
 })
 
 const User = mongoose.model("User", CreateUser)

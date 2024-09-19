@@ -1,0 +1,99 @@
+[
+    {
+      "name": "Civic",
+      "brand": "Honda",
+      "details": "The Honda Civic is a compact car known for its fuel efficiency, reliability, and modern design. It offers advanced safety features, comfortable interiors, and a smooth driving experience, making it popular among commuters and families alike.",
+      "price": 22000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Accord",
+      "brand": "Honda",
+      "details": "The Honda Accord is a mid-size sedan that combines elegance with performance. Known for its spacious cabin, advanced technology, and robust safety features, the Accord is a top choice for those seeking comfort and reliability.",
+      "price": 28000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Model 3",
+      "brand": "Tesla",
+      "details": "Tesla Model 3 is an all-electric sedan that offers impressive acceleration, long range, and cutting-edge technology. It features a minimalist interior, autopilot capabilities, and a top-notch safety rating, making it a leader in the EV market.",
+      "price": 39990,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Model S",
+      "brand": "Tesla",
+      "details": "The Tesla Model S is a luxury electric sedan with exceptional range and performance. It offers a high-tech interior, over-the-air updates, and one of the fastest acceleration times in the industry, appealing to luxury and tech enthusiasts.",
+      "price": 79990,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Camry",
+      "brand": "Toyota",
+      "details": "Toyota Camry is a reliable and fuel-efficient sedan with a reputation for longevity. It features a comfortable ride, advanced safety systems, and a spacious interior, making it a great option for families and daily commuting.",
+      "price": 26000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Corolla",
+      "brand": "Toyota",
+      "details": "The Toyota Corolla is a compact car that blends affordability with reliability. It offers a smooth ride, excellent fuel economy, and a suite of standard safety features, making it one of the best-selling cars globally.",
+      "price": 20000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Mustang",
+      "brand": "Ford",
+      "details": "Ford Mustang is an iconic sports car known for its powerful engines, bold design, and thrilling performance. It offers a range of trims from eco-friendly turbocharged models to high-performance V8s, catering to a wide array of driving enthusiasts.",
+      "price": 30000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "F-150",
+      "brand": "Ford",
+      "details": "The Ford F-150 is a full-size pickup truck celebrated for its versatility, towing capacity, and durability. It's available in multiple configurations and powertrains, including hybrid options, making it ideal for both work and everyday use.",
+      "price": 35000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "A4",
+      "brand": "Audi",
+      "details": "The Audi A4 is a luxury compact sedan that blends elegance with technology. It offers a refined interior, advanced driver assistance systems, and a smooth, responsive driving experience, making it popular among premium car buyers.",
+      "price": 40000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "Q5",
+      "brand": "Audi",
+      "details": "Audi Q5 is a luxury compact SUV known for its premium interiors, advanced technology, and balanced ride. It combines the practicality of an SUV with the performance and comfort of a luxury sedan, appealing to a broad audience.",
+      "price": 45000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "3 Series",
+      "brand": "BMW",
+      "details": "The BMW 3 Series is a luxury sports sedan that delivers a dynamic driving experience with a blend of performance, comfort, and advanced technology. It’s known for its sharp handling, powerful engine options, and upscale interior.",
+      "price": 42000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    },
+    {
+      "name": "X5",
+      "brand": "BMW",
+      "details": "The BMW X5 is a luxury mid-size SUV that offers a blend of performance, comfort, and cutting-edge technology. Known for its powerful engine options and premium interior, it appeals to those seeking both luxury and utility.",
+      "price": 60000,
+      "car_model": "2024",
+      "author": "66db3e50f87ad4b2bdf468a2"
+    }
+  ]
+  
