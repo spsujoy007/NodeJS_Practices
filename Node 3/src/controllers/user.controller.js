@@ -133,12 +133,6 @@ const loginUser = asyncHandler ( async (req, res) => {
 
     const loggedInUser = await User.findById(existedUser._id).select("-password -refreshToken")
 
-    // security
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
-
     // step 6 - send cookies
     return res
     .status(200)
@@ -167,12 +161,6 @@ const loggedOutUser =  asyncHandler ( async (req, res) => {
             new: true
         }
     )
-
-    // security
-    const options = {
-        httpOnly: true,
-        secure: true
-    }
 
     res
     .status( 200 )
