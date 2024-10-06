@@ -3,6 +3,13 @@ import {ApiError} from '../utils/ApiError.js'
 import { User } from '../models/user.models.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 import { ApiResponse } from "../utils/ApiResponse.js"
+import jwt from 'jsonwebtoken'
+
+// security
+const options = {
+    httpOnly: true,
+    secure: true
+}
 
 const generateAccessAndRefreshToken = async (userId) => {
     try {
@@ -97,7 +104,7 @@ const loginUser = asyncHandler ( async (req, res) => {
 
     // step 1 - req.body data
     const {email , username, password} = req.body;
-
+    
     // step 2 - username or email, password
     if(!(email || username)){
         throw new ApiError(400, "username or email is required")
@@ -114,7 +121,7 @@ const loginUser = asyncHandler ( async (req, res) => {
     }
 
     // step 4 - password check
-    const isPasswordValid = await user.isPasswordCorrect(password)
+    const isPasswordValid = await existedUser.isPasswordCorrect(password)
 
     // validation
     if (!isPasswordValid) {
@@ -128,7 +135,7 @@ const loginUser = asyncHandler ( async (req, res) => {
 
     // security
     const options = {
-        httpOnlye: true,
+        httpOnly: true,
         secure: true
     }
 
@@ -138,7 +145,7 @@ const loginUser = asyncHandler ( async (req, res) => {
     .cookie("accessToken", accessToken, options)
     .cookie("refreshToken", refreshToken, options)
     .json(
-        new ApiError(
+        new ApiResponse(
             200,
             {
                 user: loggedInUser, accessToken, refreshToken
@@ -163,7 +170,7 @@ const loggedOutUser =  asyncHandler ( async (req, res) => {
 
     // security
     const options = {
-        httpOnlye: true,
+        httpOnly: true,
         secure: true
     }
 
@@ -174,4 +181,41 @@ const loggedOutUser =  asyncHandler ( async (req, res) => {
     .json(new ApiResponse(200, {}, "user logged out successfully"))
 })
 
-export {registerUser, loginUser, loggedOutUser}
+const refreshAccessToken = asyncHandler ( async (req, res) => {
+    const incomingRefreshToken = req.cookies?.refreshToken || req.body?.refreshToken;
+
+    if(!incomingRefreshToken){
+        throw new ApiError(401, "unauthorized request")
+    }
+    
+    try {
+        const decodedToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET);
+        
+        const user = await User.findById(decodedToken?._id);
+        if(!user){
+            throw new ApiError(401, "Invalid refresh token")
+        }
+    
+        if(incomingRefreshToken !== user?.refreshToken){
+            throw new ApiError(401, "Refresh token is expired or used")
+        }
+    
+        const {accessToken, newRefreshToken} = await generateAccessAndRefreshToken(user?._id)
+    
+        res
+        .status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(
+            new ApiResponse(
+                200,
+                {accessToken, refreshToken: newRefreshToken},
+                "Access token refreshed"
+            )
+        )
+    } catch (error) {
+        throw new ApiError(401, error?.message || "Invalid refresh token")
+    }
+})
+
+export {registerUser, loginUser, loggedOutUser, refreshAccessToken}
