@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 // Load environment variables from your .env file
 dotenv.config({
-    path: "../.env"
+    path: '../.env'
 });
 
 
@@ -14,8 +14,6 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-console.log("Cloud name:", process.env.CLOUDINARY_CLOUD_NAME)
-
 // Upload an image
 const uploadOnCloudinary = async (localFilePath) => {
     try {
@@ -23,10 +21,10 @@ const uploadOnCloudinary = async (localFilePath) => {
         
         // upload the file in cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {
+            folder: "Node 3",
             resource_type: "auto"
         })
-        
-        // file has been uploaded successfuly
+
         console.log("\nFile is uploaded on cloudinary", response.url);
         fs.unlinkSync(localFilePath)
         return response;
