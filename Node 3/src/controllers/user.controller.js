@@ -20,7 +20,7 @@ const generateAccessAndRefreshToken = async (userId) => {
     }
 }
 
-const registerUser = asyncHandler( async (req, res) => {
+const registerUser = asyncHandler ( async (req, res) => {
     /*  get user details from frontend
         validation - not empty
         check if user already exists: username, email
@@ -87,7 +87,7 @@ const registerUser = asyncHandler( async (req, res) => {
     )
 })
 
-const loginUser = asyncHandler( async (req, res) => {
+const loginUser = asyncHandler ( async (req, res) => {
     /* 1. req.body data
     2. username or email, password
     3. find the user
@@ -146,6 +146,10 @@ const loginUser = asyncHandler( async (req, res) => {
             "user logged in successfully"
         )
     )
+})
+
+const loggedOutUser =  asyncHandler ( async (req, res) => {
+    
 })
 
 export {registerUser, loginUser}
