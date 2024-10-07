@@ -15,7 +15,7 @@ cloudinary.config({
 });
 
 // Upload an image
-const uploadOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath, replaceURL) => {
     try {
         if(!localFilePath) return null
         
@@ -24,9 +24,21 @@ const uploadOnCloudinary = async (localFilePath) => {
             folder: "Node 3",
             resource_type: "auto"
         })
-
+        
         console.log("\nFile is uploaded on cloudinary", response.url);
         fs.unlinkSync(localFilePath)
+
+        if(replaceURL){
+            cloudinary.uploader.destroy(`Node 203/${replaceURL.split("Node%203/")[1].split(".")[0]}`, (error, result) => {
+                if(error){
+                    console.log("A problem when deleting image")
+                }else{
+                    console.log('Image deleted successfully', result)
+                }
+            })
+        }
+        // console.log(`Node 203/${replaceURL.split("Node%203/")[1].split(".")[0]}`)
+
         return response;
 
     } catch (error) {
