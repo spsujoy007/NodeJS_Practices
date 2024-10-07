@@ -4,6 +4,7 @@ import { User } from '../models/user.models.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from 'jsonwebtoken'
+import { v2 as cloudinary } from "cloudinary";
 
 // security
 const options = {
@@ -56,14 +57,14 @@ const registerUser = asyncHandler ( async (req, res) => {
 
     const avatarLocalPath = req.files?.avatar[0]?.path;
     let coverImageLocalPath = req.files?.coverImage[0]?.path;
-
     if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0) {
-        coverImageLocalPath = req.files?.coverImage[0]?.path
+        coverImageLocalPath = req.files.coverImage[0]?.path
     }
 
     if(!avatarLocalPath){
         throw new ApiError(400, "Avatar file is required - 1")
     }
+    
     const avatar = await uploadOnCloudinary(avatarLocalPath)
     
     const coverImage = await uploadOnCloudinary(coverImageLocalPath)
@@ -74,7 +75,10 @@ const registerUser = asyncHandler ( async (req, res) => {
 
     const user = await User.create({
         fullName,
-        avatar: avatar.url,
+        avatar: {
+            url: avatar.url,
+            public_id: avatar?.public_id
+        },
         coverImage: coverImage?.url || "",
         username: username.toLowerCase(),
         password,
@@ -255,23 +259,37 @@ const updateUserAvatar = asyncHandler ( async (req, res) => {
         throw new ApiError(400, "Avatar file is missing")
     }
 
-    const avatar = await uploadOnCloudinary(avatarLocalPath, req.user?.avatar || null);
+    const avatar = await uploadOnCloudinary(avatarLocalPath, req.user?.avatar?.public_id || null);
     
     if(!avatar){
         throw new ApiError(400, "Error while uploading avatar")
     }
-
+    const olddata = await User.findById(req.user?._id).select("-password -refreshToken")
+    
     const updatedUser = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
-                avatar: avatar?.url
+                avatar: {
+                    url: avatar?.url,
+                    public_id: avatar?.public_id
+                }
             }
         },
         {
             new: true
         }
     ).select("-password -refreshToken")
+
+    if(olddata.avatar?.public_id !== null){
+        cloudinary.uploader.destroy(olddata?.avatar?.public_id, (error, result) => {
+            if(error){
+                console.log("A problem when deleting image")
+            }else{
+                console.log('Image deleted successfully', result)
+            }
+        })
+    }
 
     res
     .status(200)
