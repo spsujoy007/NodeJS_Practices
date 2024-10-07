@@ -4,7 +4,7 @@ import { User } from '../models/user.models.js'
 import { uploadOnCloudinary } from '../utils/cloudinary.js'
 import { ApiResponse } from "../utils/ApiResponse.js"
 import jwt from 'jsonwebtoken'
-import { v2 as cloudinary } from "cloudinary";
+import { removeFromCloudinary } from '../utils/cloudinary.delete.js'
 
 // security
 const options = {
@@ -281,16 +281,8 @@ const updateUserAvatar = asyncHandler ( async (req, res) => {
         }
     ).select("-password -refreshToken")
 
-    // for removing old avatar when uploading new
-    if(olddata.avatar?.public_id !== null){
-        cloudinary.uploader.destroy(olddata?.avatar?.public_id, (error, result) => {
-            if(error){
-                console.log("A problem when deleting image")
-            }else{
-                console.log('Image deleted successfully', result)
-            }
-        })
-    }
+    // method of deleting old avatar
+    await removeFromCloudinary(olddata.avatar?.public_id)
 
     res
     .status(200)
