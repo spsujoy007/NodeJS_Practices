@@ -15,8 +15,7 @@ cloudinary.config({
 });
 
 // Upload an image
-const uploadOnCloudinary = async (localFilePath, replace_id) => {
-    console.log(replace_id || 'nai')
+const uploadOnCloudinary = async (localFilePath) => {
     try {
         if(!localFilePath) return null
         
