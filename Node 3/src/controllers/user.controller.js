@@ -258,30 +258,24 @@ const updateAccountDetails = asyncHandler ( async (req, res) => {
 const updateUserAvatar = asyncHandler ( async (req, res) => {
     const avatarLocalPath = req.file?.path;
 
-    if(!avatarLocalPath){
-        throw new ApiError(400, "Avatar file is missing")
-    }
+    if(!avatarLocalPath) throw new ApiError(400, "Avatar file is missing")
 
     const avatar = await uploadOnCloudinary(avatarLocalPath);
     
-    if(!avatar){
-        throw new ApiError(400, "Error while uploading avatar")
-    }
+    if(!avatar) throw new ApiError(400, "Error while uploading avatar")
     const olddata = await User.findById(req.user?._id).select("-password -refreshToken")
     
     const updatedUser = await User.findByIdAndUpdate(
         req.user?._id,
-        {
-            $set: {
-                avatar: {
+        { 
+            $set: 
+            { avatar: {
                     url: avatar?.url,
                     public_id: avatar?.public_id
                 }
             }
         },
-        {
-            new: true
-        }
+        { new: true }
     ).select("-password -refreshToken")
 
     // method of deleting old avatar
@@ -295,17 +289,28 @@ const updateUserAvatar = asyncHandler ( async (req, res) => {
 const updateUserCoverImage = asyncHandler ( async (req, res) => {
     const coverLocalPath = req.file?.path;
 
+    const oldata = await User.findById(req.user?._id).select("-password -refreshToken")
+
     if(!coverLocalPath) throw new ApiError(400, "Cover file is missing")
 
     const cover = await uploadOnCloudinary(coverLocalPath);
     
-    if(!cover)throw new ApiError(400, "Error while uploading cover")
+    if(!cover) throw new ApiError(400, "Error while uploading cover")
     
+
     const updatedUser = await User.findByIdAndUpdate(
         req.user?._id,
-        { $set: { cover: cover.url } },
+        { 
+            $set: { 
+                coverImage: {
+                    url: cover.url,
+                    public_id: cover.public_id
+                }
+            } },
         { new: true }
     ).select("-password -refreshToken")
+
+    await removeFromCloudinary(oldata?.coverImage?.public_id)
 
     res
     .status(200)
