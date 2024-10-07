@@ -94,7 +94,7 @@ const registerUser = asyncHandler ( async (req, res) => {
     }
 
     return res.status(201).json(
-        new ApiResponse(200, 'createdUser', "User registered successfuly")
+        new ApiResponse(200, createdUser, "User registered successfuly")
     )
 })
 
@@ -300,26 +300,16 @@ const updateUserAvatar = asyncHandler ( async (req, res) => {
 const updateUserCoverImage = asyncHandler ( async (req, res) => {
     const coverLocalPath = req.file?.path;
 
-    if(!coverLocalPath){
-        throw new ApiError(400, "Cover file is missing")
-    }
+    if(!coverLocalPath) throw new ApiError(400, "Cover file is missing")
 
     const cover = await uploadOnCloudinary(coverLocalPath);
     
-    if(!cover){
-        throw new ApiError(400, "Error while uploading cover")
-    }
+    if(!cover)throw new ApiError(400, "Error while uploading cover")
     
     const updatedUser = await User.findByIdAndUpdate(
         req.user?._id,
-        {
-            $set: {
-                cover: cover.url
-            }
-        },
-        {
-            new: true
-        }
+        { $set: { cover: cover.url } },
+        { new: true }
     ).select("-password -refreshToken")
 
     res
