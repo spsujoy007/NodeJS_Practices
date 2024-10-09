@@ -426,7 +426,7 @@ const getUserWatchHistory = asyncHandler ( async (req, res) => {
     ])
 
     res
-    .status(200),
+    .status(200)
     .json(new ApiResponse(200, user[0].watchHistory), "watch history is fetched successfully")
 })
 
