@@ -161,8 +161,8 @@ const loggedOutUser =  asyncHandler ( async (req, res) => {
     await User.findByIdAndUpdate(
         req.user._id,
         {
-            $set: {
-                refreshToken: undefined
+            $unset: {
+                refreshToken: 1
             }
         },
         {
@@ -415,9 +415,11 @@ const getUserWatchHistory = asyncHandler ( async (req, res) => {
                             ]
                         }
                     },
-                    $addFields: {
-                        owner: { 
-                            $first: "$owner"
+                    {
+                        $addFields: {
+                            owner: { 
+                                $first: "$owner"
+                            }
                         }
                     }
                 ]
@@ -427,7 +429,7 @@ const getUserWatchHistory = asyncHandler ( async (req, res) => {
 
     res
     .status(200)
-    .json(new ApiResponse(200, user[0].watchHistory), "watch history is fetched successfully")
+    .json(new ApiResponse(200, {watchHistory: user[0].watchHistory}, "watch history is fetched successfully"))
 })
 
 export {registerUser, loginUser, loggedOutUser, refreshAccessToken, changeCurrentPassword, updateAccountDetails, updateUserAvatar, updateUserCoverImage, getUserChannelProfile, getUserWatchHistory}

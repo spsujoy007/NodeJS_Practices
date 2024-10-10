@@ -36,6 +36,6 @@ router.route('/change-password').post( verifyJWT, changeCurrentPassword )
 router.route('/update-avatar').patch(verifyJWT, upload.single('avatar'), updateUserAvatar)
 router.route('/update-coverimage').patch(verifyJWT, upload.single('coverImage'), updateUserCoverImage)
 router.route('/channel/:username').get(verifyJWT, getUserChannelProfile)
-router.route('/watch-history').get(verifyJWT, getUserWatchHistory)
+router.route('/history').get(verifyJWT, getUserWatchHistory)
 
 export default router
